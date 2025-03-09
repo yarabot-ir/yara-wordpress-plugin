@@ -1,0 +1,449 @@
+
+@font-face {
+  font-family: 'YekanBakh';
+  src: url('../fonts/YekanBakh/Yekan-Bakh-Bold.otf') format('opentype'),
+       url('../fonts/YekanBakh/YekanBakh-Fat.ttf') format('truetype');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'YekanBakh';
+  src: url('../fonts/YekanBakh/Yekan-Bakh-Medium.otf') format('opentype'),
+       url('../fonts/YekanBakh/YekanBakh-Heavy.otf') format('opentype');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'YekanBakh';
+  src: url('../fonts/YekanBakh/YekanBakh-Light.otf') format('opentype'),
+       url('../fonts/YekanBakh/YekanBakh-Regular.otf') format('opentype');
+  font-weight: light;
+}
+
+.yarabot_icon_error
+{
+    font-size: 4rem;
+}
+
+.yarabot_button_error
+{
+     background-color: #E57373;
+}
+
+
+.yarabot_UserMessageColor p {
+    white-space: pre-line; 
+    margin-top:-20px
+}
+
+.yarabot_disabled 
+{
+    pointer-events: none;
+    opacity: 0.5; 
+}
+
+.yarabot_chatBox {
+    position: fixed;
+    bottom: 80px;
+    right: 30px;
+    width:100%;
+    min-height: 80%;
+    max-height: 80%;
+    max-width: 423px;
+    display: flex;
+    border-radius: 12px 12px 12px 12px;
+    flex-direction: column;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    font-family: 'YekanBakh' !important;
+    z-index : 9999999;
+}
+
+.yarabot_Content{
+  position: relative;
+}
+.move
+{
+    animation: bounce 1s infinite ease-in-out;
+}
+@keyframes bounce {
+    0% {
+        transform: translateY(0); /* شروع از موقعیت اصلی */
+    }
+    50% {
+        transform: translateY(-10px); /* بالا رفتن به اندازه 10px */
+    }
+    100% {
+        transform: translateY(0); /* برگشت به موقعیت اصلی */
+    }
+}
+
+/*
+=============================
+استایل های مربوط به هدر
+============================
+*/
+
+.yarabot_header{
+    padding: 20px;
+    background-color: rgba(25, 82, 69, 1);
+}
+
+
+.yarabot_TitleHeader{
+    font-size: 18px;
+    font-weight: 700;
+    color: rgba(248, 248, 248, 1)
+}
+
+.yarabot_SubTitleHeader{
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(248, 248, 248, 1)
+}
+
+.yarabot_Icon i{
+    color:white;
+    display: flex;
+    font-size: 2rem;
+    align-items: center;
+   
+}
+
+
+
+/* 
+===============================
+استایل های مربوط به صفحه چت
+===============================
+*/
+
+.yarabot_Content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.yarabot_Message {
+    max-width: 80%;
+}
+
+.yarabot_UserMessage {
+    align-self: flex-start;
+}
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+.yarabot_UserMessageColor{
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: rgba(242, 242, 242, 1);
+    font-size: 15px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
+}
+
+.yarabot_UserMessageColor p{
+   color:#212529!important;
+   font-size: 15px!important;
+   line-height: unset!important;
+}
+
+.yara_SubMessage{
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(115, 115, 118, 1);
+}
+
+.yarabot_BotMessage {
+    align-self: flex-end;
+}
+
+.yarabot_BotMessageColor{
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: rgba(25, 82, 69, 1);
+    color:white;
+    font-size: 15px;
+}
+
+.yarabot_BotMessageColor p {
+  color: white!important;
+  font-size: 15px!important;
+  line-height: unset!important;
+}
+
+/* 
+===========================
+استایل های مربوط به input
+===========================
+*/
+.yarabot_input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+    min-height:65px;
+}
+.yarabot_input input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    border-radius: 0px 0px 10px 10px;
+
+}
+
+  .yarabot_VoiceRecorder {
+    background-color: rgba(242, 243, 245, 1);
+    /* padding: 3px 8px; */
+    border-radius: 24px;
+    width: 100%;
+    display:flex;
+    align-items: center;
+    height:43px
+}
+
+  .yarabot_DeleteBtn{
+    font-size: 1.3rem;
+    color: red;
+  }
+
+  .yarabot_PlayBtn{
+    font-size: 30px;
+    color: #3AC0A0;
+  }
+
+
+
+@keyframes btnRgb {
+  0% {
+    box-shadow: 0px 0px 10px 5px rgba(25, 82, 69, 0.7);
+  }
+  20% {
+    box-shadow: 0px 0px 11px 6px rgba(25, 82, 69, 0.7);
+  }
+  30% {
+    box-shadow: 0px 0px 12px 7px rgba(25, 82, 69, 0.6);
+  }
+  40% {
+    box-shadow: 0px 0px 13px 8px rgba(25, 82, 69, 0.7);
+  }
+  50% {
+    box-shadow: 0px 0px 14px 9px rgba(25, 82, 69, 0.8);
+  }
+  60% {
+    box-shadow: 0px 0px 13px 8px rgba(25, 82, 69, 0.5);
+  }
+  70% {
+    box-shadow: 0px 0px 12px 7px rgba(25, 82, 69, 0.5);
+  }
+  80% {
+    box-shadow: 0px 0px 11px 6px rgba(25, 82, 69, 0.5);
+  }
+  90% {
+    box-shadow: 0px 0px 10px 5px rgba(25, 82, 69, 0.5);
+  }
+
+}
+
+
+
+.yarabot_VoiceDeactive
+{
+    width : 30px;
+}
+
+.yarabot_VoiceDeactive img 
+{
+  animation:btnRgb 2s infinite;
+  border-radius : 100%;
+  box-shadow: 0px 0px 10px 5px rgba(25, 82, 69, 0.5);
+}
+
+.bi-volume-mute , .bi-volume-up{
+    font-size:25px;
+    margin-top:10px;
+    display:block;
+}
+
+.yarabot_textarea
+{
+    overflow-y: hidden !important; 
+    resize: none !important; 
+    border: none !important; 
+    outline: none !important; 
+    flex: 1;
+    height : auto !important;
+    font-size : 16px !important;
+    max-height:150px !important;
+    background: white!important;
+    color: #474747 !important;
+    padding: 0 !important;
+    border-radius:  0 !important;
+}
+
+.yarabot_textarea::placeholder
+{
+   color: #878e99 !important;
+}
+
+
+.yarabot_VoiceDeactive, .yarabot_VoiceActive, .yarabot_SendActive, .yarabot_SendDeactive, .bi-play-circle-fill, .bi-trash, .bi-volume-up, .bi-volume-mute {
+    cursor: pointer;
+}
+
+.yarabot_SendDeactive{
+  display: none;
+}
+
+.yarabot_Icon
+{
+    cursor: pointer;
+}
+
+.yarabot_icon_close .yarabot_IconButton
+{
+    animation: none;
+} 
+.yarabot_icon_close img
+{
+    width : 23px;
+}
+
+.yarabot_IconButton{
+    border-radius:10%;
+    position:fixed;
+    bottom: 15px;
+    right:20PX;
+    z-index :999999;
+    box-shadow: none;
+
+    /*animation: bounce 1s infinite ease-in-out;*/
+
+}
+
+.yarabot_IconButton button
+{
+    background-color: rgb(25, 82, 69, 1);
+    border-radius: 70%;
+    border: unset;
+    padding: 0;
+    height: 50px;
+    width: 50px;
+    box-shadow: none;
+}
+
+.display_none
+{
+    display: none !important;
+}
+
+
+.loading
+{
+    background-color: rgba(19, 19, 19, 0.658);
+    width: 100%;
+    height: 100vh;
+    z-index: 99;
+    position: absolute;
+}
+
+.loading .loader {
+    border: 13px solid #f7f7f7; /* Light grey */
+    border-top: 13px solid #2c9179; /* Blue */
+    border-radius: 50%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1.5s linear infinite;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.yarabot_card
+{
+    font-family: 'vazir' !important;
+}
+.yarabot_error_message
+{
+    color: red;
+    margin-top: 10px;
+}
+
+/* #yarabot_start_message{
+    font-family: YekanBakh;
+    border:1px solid white;
+    padding:5px;
+    position:fixed;
+    bottom:80px;
+    right:30px;
+    background:white;
+    border-radius:11px;
+    border-radius: 11px;
+    max-width: 225px;
+    font-size: 14px;
+    padding: 12px;
+} */
+
+.yarabot_start_message{
+  font-family: YekanBakh;
+    border:1px solid white;
+    padding:5px;
+    position:fixed;
+    bottom:80px;
+    right:30px;
+    background:white;
+    border-radius:11px;
+    border-radius: 11px;
+    max-width: 225px;
+    font-size: 14px;
+    padding: 12px;
+    z-index:999;
+    color: #878e99 !important;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .yarabot_chatBox{
+      right: 5px;
+      max-width:360px;
+  }
+}
+
+
+
+/*border:1px solid white;padding:5px;position:fixed;bottom:80px;right:30px;background:white;border-radius:11px;border-radius: 11px;
+    max-width: 225px;
+    font-size: 14px;
+    padding: 12px;">*/
