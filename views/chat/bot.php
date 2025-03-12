@@ -120,7 +120,9 @@ wp_enqueue_style('YaraBot_chat_style', YARABOT_ASSETS . '/css/main.css');
         </div>
         <div class="text-center bg-light d-flex align-items-center justify-content-center" style="height:25px;background:#80808012">
             <p  style="margin:0px;color:#878e99 !important;">
-                Powered by <span style="color:green">yarabot</span>
+                <a href="https://yarabot.ir" class="yarabot_link" style="text-decoration: none;" >
+                    Powered by <span style="color:green">yarabot</span>
+                </a>
             </p>
         </div>
     </div>

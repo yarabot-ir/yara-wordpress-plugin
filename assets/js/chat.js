@@ -579,7 +579,8 @@ class yaraBot_chatController extends yaraBot_baseController
         document.body.append(newStyle);
 
         this.elements.header.main.querySelector('#header_title').innerText = yarabot.config.name;
-        this.elements.header.main.querySelector('#header_description').innerText = yarabot.config.description;
+        // this.elements.header.main.querySelector('#header_description').innerText = yarabot.config.description;
+        this.elements.header.main.querySelector('#header_description').innerText = 'سوالات رو از من بپرس!';
 
 
         // this.elements.header.main.style.background = yarabot.config.background_color;

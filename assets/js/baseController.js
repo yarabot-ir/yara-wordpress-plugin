@@ -533,4 +533,4 @@ class yaraBot_baseController
 }
 
 
-export {yaraBot_baseController};
+export { yaraBot_baseController };

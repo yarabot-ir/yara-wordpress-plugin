@@ -47,8 +47,8 @@
     bottom: 80px;
     right: 30px;
     width:100%;
-    min-height: 80%;
-    max-height: 80%;
+    min-height: 65%;
+    max-height: 65%;
     max-width: 423px;
     display: flex;
     border-radius: 12px 12px 12px 12px;
@@ -301,11 +301,15 @@
     height : auto !important;
     font-size : 16px !important;
     max-height:150px !important;
+    min-height: auto !important;
     background: white!important;
     color: #474747 !important;
     padding: 0 !important;
     border-radius:  0 !important;
 }
+
+
+
 
 .yarabot_textarea::placeholder
 {
@@ -441,6 +445,19 @@
   }
 }
 
+
+
+
+#header_logo
+{
+  height: 5rem !important;
+}
+.yarabot_link
+{
+   text-decoration: none !important;
+   color: #878e99 !important;
+   color:#878e99 !important;
+}
 
 
 /*border:1px solid white;padding:5px;position:fixed;bottom:80px;right:30px;background:white;border-radius:11px;border-radius: 11px;

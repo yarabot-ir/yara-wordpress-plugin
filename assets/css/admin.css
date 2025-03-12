@@ -87,6 +87,9 @@ animation: scale 1s ease-in infinite;
 .move
 {
     animation: bounce 1s infinite ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @keyframes bounce {
