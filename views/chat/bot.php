@@ -26,8 +26,8 @@ wp_enqueue_style('YaraBot_chat_style', YARABOT_ASSETS . '/css/main.css');
 
     <div class="yarabot_icon" id="mainShowChatBtn">
         <div class="yarabot_IconButton">
-            <button>
-                <img src="<?= YARABOT_ASSETS . '/image/logo (9).svg' ?>  " width="30px">
+            <button class="mainShowChatBtn">
+                <img id="mainShowChatBtn" src="<?= YARABOT_ASSETS . '/image/logo (9).svg' ?>  " width="30px">
             </button>
         </div>
     </div>
@@ -36,7 +36,7 @@ wp_enqueue_style('YaraBot_chat_style', YARABOT_ASSETS . '/css/main.css');
     
     <div class="yarabot_icon_close display_none d-none" id="mainCloseChatBtn">
         <div class="yarabot_IconButton">
-            <button>
+            <button class="mainShowChatBtn">
                 <img src="<?= YARABOT_ASSETS . '/image/arow.svg' ?>  " width="30px">
             </button>
         </div>
@@ -47,7 +47,7 @@ wp_enqueue_style('YaraBot_chat_style', YARABOT_ASSETS . '/css/main.css');
         <!--مربوط به هدر-->
         <div id="yarabot_header" class="yarabot_header">
             <div class="row">
-                <div class="col-2 col-2">
+                <div class="col-2 col-2" style="padding: 0 !important">
                     <img id="header_logo" src="<?= YARABOT_ASSETS . '/image/logo (9).svg' ?>  ">
                 </div> 
                 <div class="col-9 col-9" style="margin: 0px 3px" >

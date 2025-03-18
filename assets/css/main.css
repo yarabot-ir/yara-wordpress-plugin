@@ -186,12 +186,10 @@
     border-radius: 8px;
     margin-bottom: 10px;
     background-color: rgba(25, 82, 69, 1);
-    color:white;
     font-size: 15px;
 }
 
 .yarabot_BotMessageColor p {
-  color: white!important;
   font-size: 15px!important;
   line-height: unset!important;
 }

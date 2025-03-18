@@ -525,7 +525,7 @@ class yaraBot_chatController extends yaraBot_baseController
             this.lastMessage.innerHTML = `
                 <div class="d-flex justify-content-end">
                     <div class="yarabot_BotMessageColor mb-0">
-                        <p id="text_message" class="mb-0"></p>
+                        <p id="text_message" class="mb-0 yarabot_ResBotMessageColor"></p>
                     </div>
                     <img src="${yarabot.config.logo_url}" class="align-self-end me-2">
                 </div>
@@ -567,10 +567,20 @@ class yaraBot_chatController extends yaraBot_baseController
 
             .yarabot_BotMessageColor
             {
-                background : ${yarabot.config.agent_response_color} !important
+                background : ${yarabot.config.header_color} !important
+            }
+
+            .yarabot_ResBotMessageColor
+            {
+                color : ${yarabot.config.agent_text_response_color} !important
             }
             
             .yarabot_header
+            {
+                background : ${yarabot.config.header_color} !important
+            }
+            
+            .mainShowChatBtn
             {
                 background : ${yarabot.config.header_color} !important
             }
@@ -581,6 +591,9 @@ class yaraBot_chatController extends yaraBot_baseController
         this.elements.header.main.querySelector('#header_title').innerText = yarabot.config.name;
         // this.elements.header.main.querySelector('#header_description').innerText = yarabot.config.description;
         this.elements.header.main.querySelector('#header_description').innerText = 'سوالات رو از من بپرس!';
+        document.getElementById("header_logo").src = yarabot.config.logo_url;
+        document.getElementById("mainShowChatBtn").src = yarabot.config.logo_url;
+        document.getElementsByClassName('mainShowChatBtn').item(0).innerHTML = `<img src="${yarabot.config.logo_url}" width="30px">`;
 
 
         // this.elements.header.main.style.background = yarabot.config.background_color;
