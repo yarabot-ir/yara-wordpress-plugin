@@ -101,7 +101,7 @@ class AppController extends BaseController
     
     private function getChatConfig($agent_id,$token)
     {
-        $url = 'https://yarabot-backend.ahdsoft.dev/agent/bot/'. $agent_id .'/preferences';
+        $url = 'https://backend.yarabot.ir/agent/bot/'. $agent_id .'/preferences';
         $configChat = Request::get('get',$url,$token,[]);
 
         return $configChat;
