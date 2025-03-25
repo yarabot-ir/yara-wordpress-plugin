@@ -772,7 +772,7 @@ progress {
   --bs-breakpoint-xxl: 1400px;
 }
 
-.row {
+#yarabot_chatBox > .row {
   display: flex;
   flex-wrap: wrap;
   margin-top: calc(-1 * var(--bs-gutter-y));

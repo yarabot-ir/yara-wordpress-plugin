@@ -590,7 +590,7 @@ class yaraBot_chatController extends yaraBot_baseController
 
         this.elements.header.main.querySelector('#header_title').innerText = yarabot.config.name;
         // this.elements.header.main.querySelector('#header_description').innerText = yarabot.config.description;
-        this.elements.header.main.querySelector('#header_description').innerText = 'سوالات رو از من بپرس!';
+        this.elements.header.main.querySelector('#header_description').innerText = 'سوالت رو از من بپرس!';
         document.getElementById("header_logo").src = yarabot.config.logo_url;
         document.getElementById("mainShowChatBtn").src = yarabot.config.logo_url;
         document.getElementsByClassName('mainShowChatBtn').item(0).innerHTML = `<img src="${yarabot.config.logo_url}" width="30px">`;
