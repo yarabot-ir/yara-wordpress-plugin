@@ -780,6 +780,9 @@ progress {
   margin-left: calc(-0.5 * var(--bs-gutter-x));
   gap: 4px;
 }
+#text_message{
+  text-align: revert !important;
+}
 /* .row {
   flex-shrink: 0;
   width: 100%;
@@ -841,6 +844,7 @@ progress {
 .col-2 {
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 16.66666667%;
 }
 

@@ -527,12 +527,13 @@ class yaraBot_chatController extends yaraBot_baseController
                     <div class="yarabot_BotMessageColor mb-0">
                         <p id="text_message" class="mb-0 yarabot_ResBotMessageColor"></p>
                     </div>
-                    <img src="${yarabot.config.logo_url}" class="align-self-end me-2">
+                    <img id="chat_logo" src="${yarabot.config.logo_url}" class="align-self-end me-2">
                 </div>
                 <p data-elapsedTime="${new Date()}" id="elapsed_time"  class="yara_SubMessage d-flex justify-content-end ms-5 mt-1">یارابات | همین الان</p>
             `;
             
             this.elements.chatContent.main.append(this.lastMessage);
+            config()
 
         }
 
@@ -583,6 +584,13 @@ class yaraBot_chatController extends yaraBot_baseController
             .mainShowChatBtn
             {
                 background : ${yarabot.config.header_color} !important
+            }
+
+            #chat_logo {
+                width: 42px !important;
+                padding: 8px !important;
+                border-radius: 100% !important;
+                background: ${yarabot.config.header_color} !important;
             }
         `;
 
@@ -688,10 +696,9 @@ class yaraBot_chatController extends yaraBot_baseController
                             در حال پاسخ ...
                         </p>
                     </div>
-                    <img src="${yarabot.config.logo_url}" class="me-3">
+                    <img id="chat_logo" src="${yarabot.config.logo_url}" class="me-3">
                 </div>
             `;
-
         this.elements.chatContent.main.append(div);  
         this.sendBtnActiveHandler();
 
