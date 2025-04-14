@@ -379,86 +379,95 @@ class yaraBot_baseController
         this.lastRequestData = data;
         
         // قرار دادن $.ajax درون یک Promise برای استفاده از await  
-        await new Promise((resolve, reject) => {              
-            $.ajax({  
-                url: `https://backend.yarabot.ir/agent/bot/${yarabot.agent_id}/chat`,  
-                type: method,  
-                headers: {  
-                    'Authorization': yarabot.token  
-                },  
-                data: data, 
-
-                
-                contentType: data instanceof FormData ? false : 'application/x-www-form-urlencoded', 
-                processData: data instanceof FormData ? false : true,  
-
-                xhrFields: {  
-                    onprogress: function (event) {  
-                        let chunk = event.target.responseText;  
-                        let parts = chunk.split('\n');  
-                        
-                        session_id = null;
-
-
-                        if (parts.length > 0) 
-                        { 
-                            
-                            const uniqueIndexes = [];  
-                            parts.forEach((value, index) => 
-                            {  
-                                if (value !== undefined && value !== null && lastPart[index] !== value ) 
-                                {  
-                                    uniqueIndexes.push(index);  
-                                }  
-                            });  
-                            lastPart = parts;
-                            uniqueIndexes.forEach((index)=>
-                            {
-                                let response = parts[index];
-                                if(response!= '')
-                                {
-                                    response = JSON.parse(response);
-
-                                    if(response.data != null)
-                                    {
-                                        result.push(response.data)
-                                        self.botMessage(response.data)                                
-    
+        await new Promise((resolve, reject) => {
+            let previousResponseText = '';
+            let buffer = '';
+            let result = [];
+            let session_id = null;
+            let isFirstData = true;
+        
+            $.ajax({
+                url: `https://backend.yarabot.ir/agent/bot/${yarabot.agent_id}/chat`,
+                type: method,
+                headers: {
+                    'Authorization': yarabot.token
+                },
+                data: data,
+                contentType: data instanceof FormData ? false : 'application/x-www-form-urlencoded',
+                processData: data instanceof FormData ? false : true,
+        
+                xhrFields: {
+                    onprogress: function (event) {
+                        const chunk = event.target.responseText;
+                        const newData = chunk.slice(previousResponseText.length);
+                        previousResponseText = chunk;
+        
+                        buffer += newData;
+                        let parts = buffer.split('\n');
+                        buffer = parts.pop();
+        
+                        parts.forEach((part) => {
+                            if (part.trim() !== '') {
+                                try {
+                                    const response = JSON.parse(part);
+                                    
+                                    if (response.data != null) {
+                                        result.push(response.data);
+                                        if (isFirstData) {
+                                            isFirstData = false;
+                                            setTimeout(() => {
+                                                self.botMessage(response.data);
+                                            }, 10);
+                                        } else {
+                                            self.botMessage(response.data);
+                                        }
                                     }
-    
-                                    if (response.session_id != null) 
-                                    {  
+                                    if (response.session_id != null) {
                                         session_id = response.session_id;
-                                    }  
+                                    }
+                                } catch (e) {
+                                    // JSON ناقصه، می‌مونه توی buffer
                                 }
-                            });
-            
-                        
+                            }
+                        });
+                    }
+                },
+        
+                success: function (response) {
+                    // اگر چیزی توی buffer مونده بود، اینجا پردازشش کنیم
+                    if (buffer.trim() !== '') {
+                        try {
+                            const response = JSON.parse(buffer);
+                            if (response.data != null) {
+                                result.push(response.data);
+                                
+                                self.botMessage(response.data);
+                            }
+                            if (response.session_id != null) {
+                                session_id = response.session_id;
+                            }
+                        } catch (e) {
+                            // ناقص موند، نمی‌تونیم کاری کنیم
                         }
-                  
-                    }  
-                },  
-                success: function(response) 
-                { 
-                    // console.log(response);
-                    self.response.data = result.join('');  
-                    resolve(response); // بعد از موفقیت درخواست، Promise را حل می‌کنیم.  
-                },  
-                error: function(jqXHR, textStatus, errorThrown) {  
-                    reject(errorThrown); // در صورت خطا، Promise را رد می‌کنیم.  
-                },  
-                complete: function(response) 
-                {                    
-                    if(response.status == 200)
-                    {
-                        self.response.data = result.join('');  
-                        self.response.session_id = session_id
+                    }
+        
+                    self.response.data = result.join('');
+                    resolve(response);
+                },
+        
+                error: function (jqXHR, textStatus, errorThrown) {
+                    reject(errorThrown);
+                },
+        
+                complete: function (response) {
+                    if (response.status == 200) {
+                        
+                        self.response.data = result.join('');
+                        self.response.session_id = session_id;
                         return true;
-                    }  
-
-
-                }  
-            });  
+                    }
+                }
+            });
         }).catch(error => {  
             //console.log(error);  
         });  

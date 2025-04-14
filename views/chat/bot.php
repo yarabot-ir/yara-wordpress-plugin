@@ -46,7 +46,7 @@ wp_enqueue_style('YaraBot_chat_style', YARABOT_ASSETS . '/css/main.css');
 
         <!--مربوط به هدر-->
         <div id="yarabot_header" class="yarabot_header">
-            <div class="row">
+            <div class="row" style="display: flex">
                 <div class="col-2 col-2" style="padding: 0 !important">
                     <img id="header_logo" src="<?= YARABOT_ASSETS . '/image/logo (9).svg' ?>  ">
                 </div> 

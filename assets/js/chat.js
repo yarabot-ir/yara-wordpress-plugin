@@ -533,13 +533,20 @@ class yaraBot_chatController extends yaraBot_baseController
             `;
             
             this.elements.chatContent.main.append(this.lastMessage);
-            config()
+            try
+            {
+                this.config();
+            }
+            catch(e)
+            {
+                console.warn(e);
+            }
 
         }
 
         
         const textElement = this.lastMessage.querySelector('#text_message');
-
+        
         textElement.innerHTML += message;
         const markDownRegex = /\*\*(.*?)\*\*/g;
         if (markDownRegex.test(textElement.innerHTML)) 

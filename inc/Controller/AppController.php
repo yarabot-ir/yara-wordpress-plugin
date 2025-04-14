@@ -103,7 +103,7 @@ class AppController extends BaseController
     {
         $url = 'https://backend.yarabot.ir/agent/bot/'. $agent_id .'/preferences';
         $configChat = Request::get('get',$url,$token,[]);
-
+        
         return $configChat;
     }
 
