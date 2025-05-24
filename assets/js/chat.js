@@ -14,6 +14,7 @@ class yaraBot_chatController extends yaraBot_baseController
         this.isMuted = false;
         this.session_id = null;
         this.scroll = true;
+        this.messageBuffer = ""; 
 
 
         this.lastMessage = null
@@ -511,16 +512,15 @@ class yaraBot_chatController extends yaraBot_baseController
         this.autoScroll()
     }
 
-    botMessage(message = this.response.data) 
-    {
-        if(this.lastMessage == null)
-        {
+    botMessage(message = this.response.data) {
+        if(this.lastMessage == null) {
             const answeringMessage = this.elements.mainChatScreen.querySelector('[data-message="answering"]');
-            this.removeChild(answeringMessage.parentElement,answeringMessage);
-
+            if (answeringMessage) {
+                this.removeChild(answeringMessage.parentElement, answeringMessage);
+            }
+    
             this.lastMessage = document.createElement('div');
-            this.lastMessage.classList.add('yarabot_Message');
-            this.lastMessage.classList.add('yarabot_BotMessage');
+            this.lastMessage.classList.add('yarabot_Message', 'yarabot_BotMessage');
             
             this.lastMessage.innerHTML = `
                 <div class="d-flex justify-content-end">
@@ -529,34 +529,37 @@ class yaraBot_chatController extends yaraBot_baseController
                     </div>
                     <img id="chat_logo" src="${yarabot.config.logo_url}" class="align-self-end me-2">
                 </div>
-                <p data-elapsedTime="${new Date()}" id="elapsed_time"  class="yara_SubMessage d-flex justify-content-end ms-5 mt-1">یارابات | همین الان</p>
+                <p data-elapsedTime="${new Date()}" id="elapsed_time" class="yara_SubMessage d-flex justify-content-end ms-5 mt-1">یارابات | همین الان</p>
             `;
             
             this.elements.chatContent.main.append(this.lastMessage);
-            try
-            {
+            
+            try {
                 this.config();
-            }
-            catch(e)
-            {
+            } catch(e) {
                 console.warn(e);
             }
 
+            this.lastMessage.rawText = '';
         }
-
         
         const textElement = this.lastMessage.querySelector('#text_message');
         
-        textElement.innerHTML += message;
-        const markDownRegex = /\*\*(.*?)\*\*/g;
-        if (markDownRegex.test(textElement.innerHTML)) 
-        {
-            
-            textElement.innerHTML = textElement.innerHTML.replace(markDownRegex,  '<strong>$1</strong>');
-            textElement.innerHTML = textElement.innerHTML.replace(/\n/g, '<br>');
-
-        }
-            
+        this.lastMessage.rawText += message;
+        
+        let processedContent = this.lastMessage.rawText;
+        
+        processedContent = processedContent.replace(
+            /\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g, 
+            '<a href="$2" target="_blank" rel="noopener noreferrer" class="link-style">$1</a>'
+        );
+        
+        processedContent = processedContent.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+        
+        processedContent = processedContent.replace(/\n/g, '<br>');
+        
+        textElement.innerHTML = processedContent;
+        
         this.autoScroll();
     }
 

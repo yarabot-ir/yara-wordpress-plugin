@@ -918,6 +918,10 @@
   .bi-map::before { content: "\f47f"; }
   .bi-markdown-fill::before { content: "\f480"; }
   .bi-markdown::before { content: "\f481"; }
+  .link-style {
+    color: blue;
+    text-decoration: underline;
+  }  
   .bi-mask::before { content: "\f482"; }
   .bi-megaphone-fill::before { content: "\f483"; }
   .bi-megaphone::before { content: "\f484"; }
