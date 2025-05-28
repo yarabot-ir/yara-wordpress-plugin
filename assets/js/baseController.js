@@ -3,6 +3,7 @@ class yaraBot_baseController
 {
     selectedElement = null;
     loadingElement = null;
+    baseUrl = "https://backend.yarabot.ir"
     events = [];
     response = {
         status : true,
@@ -367,15 +368,42 @@ class yaraBot_baseController
         return this;
     }
 
+    async GetChatData(session_id) {
+        this.loading().show();
+
+        try {
+            let secureBaseUrl = this.baseUrl.startsWith('http:') 
+                ? this.baseUrl.replace('http:', 'https:') 
+                : this.baseUrl;            
+
+            const response = await fetch(`${secureBaseUrl}/agent/bot/${yarabot.agent_id}/${session_id}/`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': yarabot.token,
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                console.error("Chat request failed with status:", response.status);
+                return null;
+            }
+
+            const data = await response.json();
+            
+            return { chat_success_data: data };
+        } catch (error) {
+            console.error("Error in GetChatData:", error);
+            return null;
+        }
+    }
+
+
     async sendRequestChat(data, method = "POST")   
     {  
         let $ = jQuery.noConflict();  
         this.loading().show();  
-        let self = this;  
-        let result = [];  
-        let session_id = null;  
-
-        let lastPart = [];        
+        let self = this;          
         this.lastRequestData = data;
         
         // قرار دادن $.ajax درون یک Promise برای استفاده از await  
@@ -387,7 +415,7 @@ class yaraBot_baseController
             let isFirstData = true;
         
             $.ajax({
-                url: `https://backend.yarabot.ir/agent/bot/${yarabot.agent_id}/chat`,
+                url: `${this.baseUrl}/agent/bot/${yarabot.agent_id}/chat`,
                 type: method,
                 headers: {
                     'Authorization': yarabot.token
@@ -424,6 +452,10 @@ class yaraBot_baseController
                                     }
                                     if (response.session_id != null) {
                                         session_id = response.session_id;
+                                        if (response.session_id) {
+                                            localStorage.setItem("YARABOT_WIDGET_Conversation", response.session_id);
+                                            localStorage.setItem("YARABOT_WIDGET_Date", Date.now().toString());
+                                        }
                                     }
                                 } catch (e) {
                                     // JSON ناقصه، می‌مونه توی buffer
@@ -445,6 +477,10 @@ class yaraBot_baseController
                             }
                             if (response.session_id != null) {
                                 session_id = response.session_id;
+                                if (response.session_id) {
+                                    localStorage.setItem("YARABOT_WIDGET_Conversation", response.session_id);
+                                    localStorage.setItem("YARABOT_WIDGET_Date", Date.now().toString());
+                                }
                             }
                         } catch (e) {
                             // ناقص موند، نمی‌تونیم کاری کنیم
@@ -464,6 +500,10 @@ class yaraBot_baseController
                         
                         self.response.data = result.join('');
                         self.response.session_id = session_id;
+                        if (session_id) {
+                            localStorage.setItem("YARABOT_WIDGET_Conversation", session_id);
+                            localStorage.setItem("YARABOT_WIDGET_Date", Date.now().toString());
+                        }
                         return true;
                     }
                 }

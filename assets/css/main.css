@@ -43,21 +43,22 @@
 }
 
 .yarabot_chatBox {
-    position: fixed;
-    bottom: 80px;
-    right: 30px;
-    width:100%;
-    min-height: 65%;
-    max-height: 65%;
-    max-width: 423px;
-    display: flex;
-    border-radius: 12px 12px 12px 12px;
-    flex-direction: column;
-    background-color: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    font-family: 'YekanBakh' !important;
-    z-index : 9999999;
+  direction: rtl;
+  position: fixed;
+  bottom: 80px;
+  right: 30px;
+  width:100%;
+  min-height: 65%;
+  max-height: 65%;
+  max-width: 423px;
+  display: flex;
+  border-radius: 12px 12px 12px 12px;
+  flex-direction: column;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  font-family: 'YekanBakh' !important;
+  z-index : 9999999;
 }
 
 .yarabot_Content{
