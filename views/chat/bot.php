@@ -21,7 +21,7 @@ wp_enqueue_style('YaraBot_chat_style', YARABOT_ASSETS . '/css/main.css');
 
     <span class="yarabot_start_message textIcon shadow" id="yarabot_start_message">
     سلام😊 من هم‌یار هوشمند دستیار هوشمند هستم.
-    اینجام تا به سوالات شما در هر ساعتی از شبانه‌روز پاسخ بدم. چطور می‌تونم کمکتون کنم؟
+    چطور می‌تونم کمکتون کنم؟
     </span>
 
     <div class="yarabot_icon" id="mainShowChatBtn">

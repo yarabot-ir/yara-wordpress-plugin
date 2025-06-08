@@ -331,7 +331,7 @@ class yaraBot_chatController extends yaraBot_baseController {
     start() {
 
         const startMessage = `سلام😊 من هم‌یار هوشمند ${yarabot.config.name} هستم.
-            اینجام تا به سوالات شما در هر ساعتی از شبانه‌روز پاسخ بدم. چطور می‌تونم کمکتون کنم؟ `;
+         چطور می‌تونم کمکتون کنم؟ `;
         this.elements.startMessage.innerText = startMessage;
 
     }
