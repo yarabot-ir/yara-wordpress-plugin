@@ -99,11 +99,29 @@ class AppController extends BaseController
         }
     }
     
-    private function getChatConfig($agent_id,$token)
+    private function getChatConfig($agent_id, $token)
     {
-        $url = 'https://backend.yarabot.ir/agent/bot/'. $agent_id .'/preferences';
-        $configChat = Request::get('get',$url,$token,[]);
-        
+        $transient_key = 'chat_config_' . $agent_id;
+
+        $cached = get_transient($transient_key);
+        if ($cached !== false) {
+            $decoded = json_decode($cached, true);
+            if ($decoded !== null) {
+                return $decoded;
+            }
+        } 
+
+        $url = 'https://backend.yarabot.ir/agent/bot/' . $agent_id . '/preferences';
+
+        $configChat = Request::get('get', $url, $token, []);
+
+        if (!empty($configChat)) {
+            $json = json_encode($configChat);
+            if ($json !== false) {
+                set_transient($transient_key, $json, 24 * HOUR_IN_SECONDS);
+            } 
+        }
+
         return $configChat;
     }
 
