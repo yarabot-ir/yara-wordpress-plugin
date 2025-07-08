@@ -134,7 +134,7 @@ class yaraBot_chatController extends yaraBot_baseController {
 
         this.addNeedEvents();
         this.config();
-        setInterval(this.elapsedTimeMessage.bind(this), 60000);
+        // setInterval(this.elapsedTimeMessage.bind(this), 60000);
         this.start();
 
     }
@@ -538,42 +538,65 @@ class yaraBot_chatController extends yaraBot_baseController {
         processedContent = processedContent.replace(/\n/g, '<br>');
 
         textElement.innerHTML = processedContent;
-        console.log(this.lastMessage);
 
         this.autoScroll();
     }
 
+    dateCalculator(date) {
+        const now = new Date();
+        const millisecondsToSubtract = (3 * 60 * 60 * 1000) + (30 * 60 * 1000);
+        const adjustedNow = new Date(now.getTime() - millisecondsToSubtract);
+        const givenDate = new Date(date);
+        
+        if (isNaN(givenDate)) {
+            console.error('invalid date :', date);
+            return 'تاریخ نامعتبر';
+        }
+        
+        const diffInMs = Math.abs(adjustedNow - givenDate);
+        const diffInMinutes = Math.floor(diffInMs / 1000 / 60);
+        
+        if (diffInMinutes >= 60) {
+            const hours = Math.floor(diffInMinutes / 60);
+            const minutes = diffInMinutes % 60;
+            return minutes > 0 ? `${hours} ساعت و ${minutes} دقیقه پیش` : `${hours} ساعت پیش`;
+        } else if (diffInMinutes > 0) {
+            return `${diffInMinutes} دقیقه پیش`;
+        } else {
+            return 'همین الان';
+        }
+    }
 
     async config() {
         yarabot.config = JSON.parse(yarabot.config);
         const newStyle = document.createElement('style');
-
+        
         newStyle.innerHTML = `
-            .yarabot_UserMessageColor
-            {
-                color : ${yarabot.config.text_color} !important
-                background : ${yarabot.config.user_chat_color} !important
-            }
+        .yarabot_UserMessageColor
+        {
+                color : #2a2b2c !important;
+                background : #e4e8f1 !important
+                }
 
             .yarabot_BotMessageColor
             {
-                background : ${yarabot.config.header_color} !important
-            }
-
-            .yarabot_ResBotMessageColor
-            {
-                color : ${yarabot.config.agent_text_response_color} !important
-            }
+                background : #fefffe !important
+                }
+                
+                .yarabot_ResBotMessageColor
+                {
+                color : #302a2c !important
+                }
             
-            .yarabot_header
-            {
-                background : ${yarabot.config.header_color} !important
+                .yarabot_header
+                {
+                    background : ${yarabot.config.header_color} !important
             }
             
             .mainShowChatBtn
             {
                 background : ${yarabot.config.header_color} !important
-            }
+                }
 
             #chat_logo {
                 width: 42px !important;
@@ -596,7 +619,7 @@ class yaraBot_chatController extends yaraBot_baseController {
             const savedTime = parseInt(localStorage.getItem("YARABOT_WIDGET_Date"));
             const currentTime = Date.now();
             const twentyFourHours = 24 * 60 * 60 * 1000; 
-
+            
             if (currentTime - savedTime >= twentyFourHours) {
                 localStorage.removeItem("YARABOT_WIDGET_Date");
                 localStorage.removeItem("YARABOT_WIDGET_Conversation");
@@ -609,67 +632,61 @@ class yaraBot_chatController extends yaraBot_baseController {
                             div.classList.add('yarabot_Message');
                             div.classList.add('yarabot_UserMessage');
                             div.innerHTML = `
-                                    <div class="yarabot_UserMessageColor mb-0">
-                                        <p class="mb-0">
-                                            ${e?.content}
-                                        </p>
-                                        
+                                <div class="yarabot_UserMessageColor mb-0">
+                                <p class="mb-0">
+                                ${e?.content}
+                                    </p>
+                                    
                                     </div>
-                                    <p data-elapsedTime="${e?.time}" id="elapsed_time" class="yara_SubMessage mt-1">همین الان</p>
-                                `;
-    
+                                    <p data-elapsedTime="${this.dateCalculator(e?.time)}" id="elapsed_time" class="yara_SubMessage mt-1">${this.dateCalculator(e?.time)}</p>
+                                    `;
+                                    
                             this.elements.chatContent.main.append(div);
-                            this.autoScroll()
                         } else {
-                            let processedContent = e?.content;
-    
-                            processedContent = processedContent.replace(
-                                /\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g,
-                                '<a href="$2" target="_blank" rel="noopener noreferrer" class="link-style">$1</a>'
-                            );
-    
-                            processedContent = processedContent.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
-    
-                            processedContent = processedContent.replace(/\n/g, '<br>');
-    
-                            const answeringMessage = this.elements.mainChatScreen.querySelector('[data-message="answering"]');
-                            if (answeringMessage) {
-                                this.removeChild(answeringMessage.parentElement, answeringMessage);
-                            }
-    
-                            this.lastMessage = document.createElement('div');
-                            this.lastMessage.classList.add('yarabot_Message', 'yarabot_BotMessage');
-    
-                            this.lastMessage.innerHTML = `
-                            <div class="d-flex justify-content-end">
-                                <div class="yarabot_BotMessageColor mb-0">
-                                    <p id="text_message" class="mb-0 yarabot_ResBotMessageColor">${processedContent}</p>
-                                </div>
-                                <img id="chat_logo" src="${yarabot.config.logo_url}" class="align-self-end me-2">
-                            </div>
-                            <p data-elapsedTime="${e?.time}" id="elapsed_time" class="yara_SubMessage d-flex justify-content-end ms-5 mt-1">یارابات | همین الان</p>
-                        `;
-    
-                            this.elements.chatContent.main.append(this.lastMessage);
-    
-                            try {
-                                this.config();
-                            } catch (e) {
-                                console.warn(e);
-                            }
-    
-                            this.lastMessage.rawText = '';
+                            this.addBotMessage(e?.content, this.dateCalculator(e?.time));
                         }
                     })
-    
                 }
-            }
+                const contentEl = document.getElementById('yarabot_Content');
 
+                setTimeout(() => {
+                    contentEl.scrollTop = contentEl.scrollHeight;
+                }, 1000);
+            }
+            
         }
         // this.elements.header.main.style.background = yarabot.config.background_color;
         //this.elements.header.logo.src = yarabot.config.logo_url
 
     }
+
+    addBotMessage(content, time = 'همین الان') {
+        let processedContent = content;
+        processedContent = processedContent.replace(
+            /\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g,
+            '<a href="$2" target="_blank" rel="noopener noreferrer" class="link-style">$1</a>'
+        );
+        processedContent = processedContent.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+        processedContent = processedContent.replace(/\n/g, '<br>');
+
+        const messageEl = document.createElement('div');
+        messageEl.classList.add('yarabot_Message', 'yarabot_BotMessage');
+        messageEl.innerHTML = `
+            <div class="d-flex justify-content-end">
+                <div class="yarabot_BotMessageColor mb-0">
+                    <p class="mb-0 yarabot_ResBotMessageColor">${processedContent}</p>
+                </div>
+                <img id="chat_logo" src="${yarabot.config.logo_url}" class="align-self-end me-2">
+            </div>
+            <p data-elapsedTime="${time}" class="yara_SubMessage d-flex justify-content-end ms-5 mt-1">${time}</p>
+        `;
+
+        this.elements.chatContent.main.append(messageEl);
+        
+
+    }
+
+
 
     async send(e) {
         if (e.key == 'Enter' && e.shiftKey) {

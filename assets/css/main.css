@@ -126,7 +126,7 @@
     padding: 15px;
     display: flex;
     flex-direction: column;
-    background-color: rgba(255, 255, 255, 1);
+    background-color: #e4e8f1;
 }
 
 .yarabot_Message {
@@ -158,7 +158,7 @@
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 10px;
-    background-color: rgba(242, 242, 242, 1);
+    background-color: #e4e8f1;
     font-size: 15px;
     word-wrap: break-word;
     overflow-wrap: break-word;

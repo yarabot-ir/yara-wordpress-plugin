@@ -780,6 +780,9 @@ progress {
   margin-left: calc(-0.5 * var(--bs-gutter-x));
   gap: 4px;
 }
+#yarabot_chatBox {
+  direction: rtl;
+}
 #text_message{
   text-align: revert !important;
 }

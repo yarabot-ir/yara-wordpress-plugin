@@ -51,7 +51,7 @@ class yaraBot_baseController {
             return this;
         }
 
-        if (this.selectedElement != null) {
+        if (this.selectedElement != null) { 
             this.selectedElement.classList.remove('display_none');
             this.selectedElement.classList.remove('d-none');
 
@@ -334,6 +334,16 @@ class yaraBot_baseController {
         }
     }
 
+    updateBotMessageStream(contentChunk) {
+        if (!this.currentBotMessageEl) return;
+
+        const processed = contentChunk
+            .replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="link-style">$1</a>')
+            .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>');
+
+        this.currentBotMessageEl.innerHTML += processed;
+    }
 
     async sendRequestChat(data, method = "POST") {
         let $ = jQuery.noConflict();
@@ -341,7 +351,6 @@ class yaraBot_baseController {
         let self = this;
         this.lastRequestData = data;
 
-        // قرار دادن $.ajax درون یک Promise برای استفاده از await  
         await new Promise((resolve, reject) => {
             let previousResponseText = '';
             let buffer = '';
@@ -370,55 +379,58 @@ class yaraBot_baseController {
                         buffer = parts.pop();
 
                         parts.forEach((part) => {
-                            if (part.trim() !== '') {
-                                try {
-                                    const response = JSON.parse(part);
+                            const jsonRegex = /{(?:[^{}]|{(?:[^{}]|{[^{}]*})*})*}/g;
+                            const matches = part.match(jsonRegex);
 
-                                    if (response.data != null) {
-                                        result.push(response.data);
-                                        if (isFirstData) {
-                                            isFirstData = false;
-                                            setTimeout(() => {
+                            if (matches) {
+                                matches.forEach((jsonStr) => {
+                                    const cleanedJsonStr = jsonStr.trim();
+                                    try {
+                                        const response = JSON.parse(cleanedJsonStr);
+
+                                        if (response.data != null) {
+                                            result.push(response.data);
+                                            if (isFirstData) {
+                                                isFirstData = false;
+                                                setTimeout(() => {
+                                                    self.botMessage(response.data);
+                                                }, 10);
+                                            } else {
                                                 self.botMessage(response.data);
-                                            }, 10);
-                                        } else {
-                                            self.botMessage(response.data);
+                                            }
                                         }
-                                    }
-                                    if (response.session_id != null) {
-                                        session_id = response.session_id;
-                                        if (response.session_id) {
-                                            localStorage.setItem("YARABOT_WIDGET_Conversation", response.session_id);
+                                        if (response.session_id != null) {
+                                            session_id = response.session_id;
+                                            localStorage.setItem("YARABOT_WIDGET_Conversation", session_id);
                                             localStorage.setItem("YARABOT_WIDGET_Date", Date.now().toString());
                                         }
+                                    } catch (e) {
+                                        console.warn("❌ Failed to parse JSON:", cleanedJsonStr);
+                                        console.error("Error:", e.message);
                                     }
-                                } catch (e) {
-                                    // JSON ناقصه، می‌مونه توی buffer
-                                }
+                                });
+                            } else {
+                                
                             }
                         });
+
                     }
                 },
 
                 success: function (response) {
-                    // اگر چیزی توی buffer مونده بود، اینجا پردازشش کنیم
                     if (buffer.trim() !== '') {
                         try {
-                            const response = JSON.parse(buffer);
-                            if (response.data != null) {
-                                result.push(response.data);
-
-                                self.botMessage(response.data);
+                            const finalResponse = JSON.parse(buffer);
+                            if (finalResponse.data != null) {
+                                result.push(finalResponse.data);
+                                self.updateBotMessageStream(finalResponse.data);
                             }
-                            if (response.session_id != null) {
-                                session_id = response.session_id;
-                                if (response.session_id) {
-                                    localStorage.setItem("YARABOT_WIDGET_Conversation", response.session_id);
-                                    localStorage.setItem("YARABOT_WIDGET_Date", Date.now().toString());
-                                }
+                            if (finalResponse.session_id != null) {
+                                session_id = finalResponse.session_id;
+                                localStorage.setItem("YARABOT_WIDGET_Conversation", session_id);
+                                localStorage.setItem("YARABOT_WIDGET_Date", Date.now().toString());
                             }
                         } catch (e) {
-                            // ناقص موند، نمی‌تونیم کاری کنیم
                         }
                     }
 
@@ -432,19 +444,17 @@ class yaraBot_baseController {
 
                 complete: function (response) {
                     if (response.status == 200) {
-
                         self.response.data = result.join('');
                         self.response.session_id = session_id;
                         if (session_id) {
                             localStorage.setItem("YARABOT_WIDGET_Conversation", session_id);
                             localStorage.setItem("YARABOT_WIDGET_Date", Date.now().toString());
                         }
-                        return true;
+                        self.currentBotMessageEl = null;
                     }
                 }
             });
-        }).catch(error => {
-            //console.log(error);  
+        }).catch(() => {
         });
     }
 
